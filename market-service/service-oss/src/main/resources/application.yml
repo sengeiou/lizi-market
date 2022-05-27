@@ -1,0 +1,20 @@
+server:
+  port: 10002
+
+spring:
+  application:
+    name: service-oss
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+# 阿里云oss配置
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-chengdu.aliyuncs.com
+      keyid: LTAI5t6yNVfMmU1aD5rWL43x
+      keysecret: AFzRbNYvbYuoZTRHN0ndMctlKNl6U1
+      bucketname: edufqh-1010

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fqh.lizgoods.mapper.BrandMapper">
+
+    <resultMap id="BrandDetailMap" type="com.fqh.lizgoods.bean.vo.brand.BrandDetailVo">
+        <id column="id" property="brandId" jdbcType="BIGINT"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="brand_desc" property="brandDesc" jdbcType="VARCHAR"/>
+        <result column="sort" property="brandSort" jdbcType="INTEGER"/>
+        <result column="brand_type" property="brandType" jdbcType="INTEGER"/>
+        <result column="brand_img" property="brandImg" jdbcType="VARCHAR"/>
+        <collection property="goodsList" ofType="com.fqh.lizgoods.bean.Goods">
+            <id column="goods_id" property="id" jdbcType="BIGINT"/>
+            <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+            <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
+            <result column="cate_id" property="cateId" jdbcType="BIGINT"/>
+            <result column="price" property="price" jdbcType="DECIMAL"/>
+            <result column="description_id" property="descriptionId" jdbcType="BIGINT"/>
+            <result column="cover" property="cover" jdbcType="VARCHAR"/>
+            <result column="view_count" property="viewCount" jdbcType="BIGINT"/>
+            <result column="buy_count" property="buyCount" jdbcType="BIGINT"/>
+            <result column="stock" property="stock" jdbcType="INTEGER"/>
+            <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        </collection>
+    </resultMap>
+    <select id="getBrandDetailInfo" resultMap="BrandDetailMap">
+        SELECT tb_brand.id, tb_brand.brand_name,
+               tb_brand.brand_desc, tb_brand.sort,
+               tb_brand.brand_type, tb_brand.brand_img,
+               tb_goods.id AS goods_id, tb_goods.goods_name,
+               tb_goods.brand_id, tb_goods.cate_id,
+               tb_goods.price, tb_goods.description_id,
+               tb_goods.cover, tb_goods.view_count,
+               tb_goods.buy_count, tb_goods.stock,
+               tb_goods.gmt_create FROM tb_brand
+        LEFT JOIN tb_goods ON tb_goods.brand_id = tb_brand.id
+        WHERE tb_brand.id = #{brandId}
+    </select>
+</mapper>

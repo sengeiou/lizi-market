@@ -1,0 +1,49 @@
+server:
+  port: 10001
+
+spring:
+  application:
+    name: service-goods
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/market?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: fqh
+
+  redis:
+    host: 192.168.159.138
+    port: 6379
+    database: 0
+    timeout: 2000000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        #配置Sentinel Dashboard地址
+        dashboard: localhost:8080
+        port: 8719
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/fqh/lizgoods/mapper/xml/*.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

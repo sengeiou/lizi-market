@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fqh.cart.mapper.CartItemMapper">
+
+    <select id="getGoodsItemInfo" resultType="com.fqh.front.dto.GoodsSalesDto">
+        SELECT tb_cart_item.goods_id,
+               tb_goods.price AS unit_price,
+               tb_cart_item.item_count AS goods_count
+        FROM tb_cart_item
+        LEFT JOIN tb_goods ON tb_goods.id = tb_cart_item.goods_id
+        WHERE tb_cart_item.goods_id = #{id}
+    </select>
+    <select id="getUintPriceFromGoodsTb" resultType="com.fqh.front.dto.GoodsSalesDto">
+        SELECT tb_order.goods_id,
+               tb_goods.price AS unit_price,
+               tb_order.goods_num AS goods_count
+               FROM tb_order
+        LEFT JOIN tb_goods ON tb_goods.id = tb_order.goods_id
+        AND tb_order.user_id = #{uid}
+    </select>
+    <select id="getInfoFromCartItem" resultType="com.fqh.front.dto.GoodsSalesDto">
+        SELECT SUM(tb_cart_item.item_count) AS 'goods_count', tb_cart_order.total_amount
+        FROM tb_cart_order
+                 LEFT JOIN tb_cart_item ON tb_cart_order.id = tb_cart_item.cart_id
+        WHERE tb_cart_order.order_no = #{orderNo}
+        GROUP BY tb_cart_order.id
+    </select>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fqh.logistics.mapper.LogisticsMapper">
+
+    <!-- 查询物流列表-->
+    <select id="getLogisticsList" resultType="com.fqh.logistics.bean.vo.LogisticsVo">
+        SELECT tb_logistics.id, tb_logistics.order_no,
+               tb_order.goods_id, tb_order.goods_name,
+               tb_order.goods_cover, tb_logistics.logistics_status,
+               tb_logistics.logistics_company, tb_logistics.logistics_type,
+               tb_logistics.logistics_fee, tb_logistics.receiver_address,
+               tb_logistics.complete_time, tb_logistics.receiver,
+               tb_logistics.gmt_create
+        FROM tb_logistics
+        LEFT JOIN tb_order ON  tb_logistics.order_no = tb_order.order_no
+    </select>
+    <select id="getLogisticsInfo" resultType="com.fqh.logistics.bean.vo.LogisticsVo">
+        SELECT tb_logistics.id, tb_logistics.order_no,
+               tb_order.goods_id, tb_order.goods_name,
+               tb_order.goods_cover, tb_logistics.logistics_status,
+               tb_logistics.logistics_company, tb_logistics.logistics_type,
+               tb_logistics.logistics_fee, tb_logistics.receiver_address,
+               tb_logistics.complete_time, tb_logistics.receiver,
+               tb_logistics.gmt_create
+        FROM tb_logistics
+                 LEFT JOIN tb_order ON  tb_logistics.order_no = tb_order.order_no
+        WHERE tb_logistics.logistics_status = #{status}
+    </select>
+    <select id="getLogisticsInfoById" resultType="com.fqh.logistics.bean.vo.LogisticsVo">
+        SELECT tb_logistics.id, tb_logistics.order_no,
+               tb_order.goods_id, tb_order.goods_name,
+               tb_order.goods_cover, tb_logistics.logistics_status,
+               tb_logistics.logistics_company, tb_logistics.logistics_type,
+               tb_logistics.logistics_fee, tb_logistics.receiver_address,
+               tb_logistics.complete_time, tb_logistics.receiver,
+               tb_logistics.gmt_create
+        FROM tb_logistics
+                 LEFT JOIN tb_order ON  tb_logistics.order_no = tb_order.order_no
+        WHERE tb_logistics.id = #{id}
+    </select>
+    <select id="getCartOrderLogisticsGoodsId" resultType="java.lang.Long">
+        SELECT tb_cart_item.goods_id FROM tb_logistics
+        LEFT JOIN tb_cart_order ON tb_cart_order.order_no = tb_logistics.order_no
+        LEFT JOIN tb_cart_item ON tb_cart_item.cart_id = tb_cart_order.id
+        WHERE tb_logistics.id = #{id}
+    </select>
+    <select id="getUserLogisticsList" resultType="com.fqh.logistics.bean.vo.LogisticsVo">
+
+    </select>
+
+</mapper>

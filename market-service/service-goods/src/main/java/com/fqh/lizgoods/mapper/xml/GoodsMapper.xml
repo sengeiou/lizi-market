@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fqh.lizgoods.mapper.GoodsMapper">
+
+    <select id="getGoodsPublishInfo" resultType="com.fqh.lizgoods.bean.vo.goods.GoodsAdvancedVo">
+        SELECT tb_goods.id, goods_name, brand_name,
+               cate_name, price, description,
+               is_sale, stock, cover
+        FROM tb_goods
+                 LEFT JOIN tb_brand ON tb_goods.brand_id = tb_brand.id
+                 LEFT JOIN tb_categories ON tb_goods.cate_id = tb_categories.id
+                 LEFT JOIN tb_description ON tb_goods.description_id = tb_description.id
+        WHERE tb_goods.id = #{goodsId}
+    </select>
+    <!-- 获取所有的商品封装到vo-->
+    <select id="getAllGoodsInfo" resultType="com.fqh.lizgoods.bean.vo.goods.GoodsInfoListVo">
+        SELECT tb_goods.id, goods_name, brand_name, view_count, buy_count,
+               cate_name, price, description,
+               is_sale, stock, cover
+        FROM tb_goods
+                 LEFT JOIN tb_brand ON tb_goods.brand_id = tb_brand.id
+                 LEFT JOIN tb_categories ON tb_goods.cate_id = tb_categories.id
+                 LEFT JOIN tb_description ON tb_goods.description_id = tb_description.id
+        ORDER BY tb_goods.gmt_modified DESC
+    </select>
+    <!-- 封装前台商品对象-->
+    <select id="getAllGoodsFrontVo" resultType="com.fqh.front.vo.GoodsFrontVo">
+        SELECT tb_goods.id, goods_name, brand_name, view_count, buy_count,
+               cate_name, price, description, cover
+        FROM tb_goods
+                 LEFT JOIN tb_brand ON tb_goods.brand_id = tb_brand.id
+                 LEFT JOIN tb_categories ON tb_goods.cate_id = tb_categories.id
+                 LEFT JOIN tb_description ON tb_goods.description_id = tb_description.id
+        WHERE tb_goods.is_deleted = 0
+        ORDER BY tb_goods.gmt_modified DESC
+    </select>
+    <select id="querySearchGoodsFrontVo" resultType="com.fqh.front.vo.GoodsFrontVo">
+        SELECT tb_goods.id, goods_name, brand_name, view_count, buy_count,
+               cate_name, price, description, cover
+        FROM tb_goods
+                 LEFT JOIN tb_brand ON tb_goods.brand_id = tb_brand.id
+                 LEFT JOIN tb_categories ON tb_goods.cate_id = tb_categories.id
+                 LEFT JOIN tb_description ON tb_goods.description_id = tb_description.id
+        WHERE tb_goods.is_deleted = 0
+          <if test="cateIds != null">
+            AND cate_id IN
+              <foreach collection="cateIds" item="cateId" separator="," open="(" close=")">
+                  #{cateId}
+              </foreach>
+          </if>
+        ORDER BY ${type} DESC
+    </select>
+
+    <select id="getGoodsDetail" resultType="com.fqh.lizgoods.bean.vo.goods.GoodsDetailVo">
+        SELECT tb_goods.id, goods_name, brand_name, view_count, buy_count,
+               cate_name, price, description, cover, stock
+        FROM tb_goods
+                 LEFT JOIN tb_brand ON tb_goods.brand_id = tb_brand.id
+                 LEFT JOIN tb_categories ON tb_goods.cate_id = tb_categories.id
+                 LEFT JOIN tb_description ON tb_goods.description_id = tb_description.id
+        WHERE tb_goods.id = #{id}
+    </select>
+</mapper>

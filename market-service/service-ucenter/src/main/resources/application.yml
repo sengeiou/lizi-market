@@ -1,0 +1,65 @@
+server:
+  port: 10004
+
+spring:
+  application:
+    name: service-ucenter
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/market?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: fqh
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+  redis:
+    host: 192.168.159.138
+    port: 6379
+    database: 0
+    timeout: 2000000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+
+  rabbitmq:
+    host: 192.168.159.138
+    username: admin
+    password: 123
+    port: 5672
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/fqh/ucenter/mapper/xml/*.xml
+
+
+# 配置ribbon超时
+ribbon:
+  ReadTimeout: 30000
+  ConnectionTimeout: 30000
+
+feign:
+  client:
+    config:
+      feignName:
+        connectTimeout: 300000  # 连接超时时间
+        readTimeout: 300000    # 读取超时时间
+
+hystrix:
+  commond:
+    default:
+      execution:
+        timeout: true
+      isolation:
+        thread:
+          timeoutInMilliseconds: 30000

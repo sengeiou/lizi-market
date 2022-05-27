@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fqh.sales.mapper.SalesMapper">
+
+
+    <select id="getNeedReduceStockInfo" resultType="com.fqh.front.dto.CartItemDto">
+        SELECT goods_id, item_count FROM tb_cart_order
+        LEFT JOIN tb_cart_item ON tb_cart_item.cart_id = tb_cart_order.id
+        WHERE tb_cart_order.order_no = #{orderNo}
+    </select>
+</mapper>
