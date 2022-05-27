@@ -1,0 +1,52 @@
+server:
+  port: 10009
+
+spring:
+  application:
+    name: market-gateway
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-goods
+          uri: lb://service-goods
+          predicates:
+            - Path=/lizgoods/**
+        - id: service-oss
+          uri: lb://service-oss
+          predicates:
+            - Path=/marketoss/**
+        - id: service-front
+          uri: lb://service-front
+          predicates:
+            - Path=/front/**
+        - id: service-ucenter
+          uri: lb://service-ucenter
+          predicates:
+            - Path=/ucenter/**
+        - id: service-message
+          uri: lb://service-message
+          predicates:
+            - Path=/message/**
+        - id: service-cart
+          uri: lb://service-cart
+          predicates:
+            - Path=/shopcart/**
+        - id: service-logistics
+          uri: lb://service-logistics
+          predicates:
+            - Path=/backstage/**
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/orderservice/**
+        - id: service-sales
+          uri: lb://service-sales
+          predicates:
+            - Path=/servicesales/**
